@@ -5,7 +5,7 @@ CHATup is a real-time private chat web application built using **Socket.IO**, **
 
 1. Clone the Repository
 bash
-git clone https://github.com/your-username/CHATup.git
+git clone -  https://github.com/Pratiksha-Rawat29/CHATup.git
 cd .....
 2. Install Dependencies
 bash
@@ -15,5 +15,5 @@ bash
 node server.js
 Server will run on: http://localhost:3000
 
-screenshop CHATup
+screenshop CHATup - 
 
