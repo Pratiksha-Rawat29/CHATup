@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CHATup</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>CHATup</h1>
+
+    <div id="chatBox" class="chat-box">
+      <div id="messages" class="messages"></div>
+    </div>
+
+    <div class="message">
+      <input type="text" id="senderName" placeholder="Your name" />
+      <input type="text" id="receiverName" placeholder="Send to..." />
+      <input type="text" id="messageInput" placeholder="Type your message" />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    // Automatically register when name is entered
+    document.getElementById('senderName').addEventListener('blur', () => {
+      const sender = document.getElementById('senderName').value;
+      if (sender) socket.emit('register', sender);
+    });
+
+    function sendMessage() {
+      const sender = document.getElementById("senderName").value;
+      const receiver = document.getElementById("receiverName").value;
+      const message = document.getElementById("messageInput").value;
+
+      if (sender && receiver && message) {
+        socket.emit("privateMessage", { sender, receiver, message });
+        document.getElementById("messageInput").value = ""; // clear input
+      }
+    }
+
+socket.on("newMessage", ({ sender, message }) => {
+  const currentUser = document.getElementById("senderName").value;
+  const msg = document.createElement("div");
+
+  msg.classList.add("message");
+
+  const timestamp = new Date().toLocaleString();
+
+  if (sender === "You") {
+    msg.classList.add("sender");
+    msg.innerHTML = `${message}<div class="meta">${sender} • ${timestamp}</div>`;
+  } else if (sender === "System") {
+    msg.classList.add("system");
+    msg.textContent = `System: ${message}`;
+  } else {
+    msg.classList.add("receiver");
+    msg.innerHTML = `${message}<div class="meta">${sender} • ${timestamp}</div>`;
+  }
+
+  document.getElementById("messages").appendChild(msg);
+  document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
+});
+
+    
+  </script>
+</body>
+</html>
