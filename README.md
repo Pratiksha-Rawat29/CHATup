@@ -16,5 +16,5 @@ node server.js
 Server will run on: http://localhost:3000
 
 screenshop CHATup - 
-https://github.com/Pratiksha-Rawat29/CHATup/blob/main/snipit.jpg?raw=true
+snipit.jpg
 
